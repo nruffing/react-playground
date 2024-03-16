@@ -25,7 +25,6 @@ main {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
   padding: var(--spacer);
   gap: var(--spacer);
   background-color: var(--c-base-900);
@@ -56,4 +55,9 @@ nav a.active {
 
 main h1:first-child {
   margin-top: 0;
+}
+
+pre {
+  margin: 0;
+  padding: var(--spacer);
 }
