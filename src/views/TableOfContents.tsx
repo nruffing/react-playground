@@ -1,20 +1,20 @@
 import Code from "../components/Code";
-import format from "html-format";
+import { useFormatters } from "../hooks/useFormatters";
 
 // https://www.greatfrontend.com/questions/javascript/table-of-contents
 
 interface Heading {
   level: number;
-  heading: Element;
+  heading: HTMLElement;
 }
 
 interface HeadingNode {
   level: number;
-  heading?: Element;
+  innerHtml: string;
   children: HeadingNode[];
 }
 
-function findHeadings(element: Element, headings: Heading[]) {
+function findHeadings(element: HTMLElement, headings: Heading[]) {
   if (element.tagName.length > 1 && element.tagName.startsWith("H")) {
     const level = parseInt(element.tagName.substring(1));
     if (level) {
@@ -23,7 +23,7 @@ function findHeadings(element: Element, headings: Heading[]) {
   }
 
   for (var child of element.children) {
-    findHeadings(child, headings);
+    findHeadings(child as HTMLElement, headings);
   }
 }
 
@@ -33,8 +33,8 @@ function buildListItem(
   doc: Document,
 ) {
   const li = doc.createElement("li");
-  if (heading.heading?.innerHTML) {
-    li.innerHTML = heading.heading?.innerHTML;
+  if (heading.innerHtml) {
+    li.innerHTML = heading.innerHtml;
   }
 
   if (heading.children.length) {
@@ -42,8 +42,10 @@ function buildListItem(
     for (var child of heading.children) {
       buildListItem(child, childUl, doc);
     }
-    li.appendChild(ul);
+    li.appendChild(childUl);
   }
+
+  ul.appendChild(li);
 }
 
 function getRootHeading(doc: Document) {
@@ -54,14 +56,14 @@ function getRootHeading(doc: Document) {
     return null;
   }
 
-  const root = { level: 0, children: [] } as HeadingNode;
+  const root = { level: 0, innerHtml: "", children: [] } as HeadingNode;
   let current = root;
   const stack = [root] as HeadingNode[];
 
   for (var heading of headings) {
     const node = {
       level: heading.level,
-      heading: heading.heading,
+      innerHtml: heading.heading.innerText,
       children: [],
     } as HeadingNode;
 
@@ -86,11 +88,15 @@ function tableOfContents(doc: Document): string {
   }
 
   const rootUl = doc.createElement("ul");
-  buildListItem(root, rootUl, doc);
+  for (const heading of root.children) {
+    buildListItem(heading, rootUl, doc);
+  }
   return rootUl.outerHTML;
 }
 
 export default function TableOfContents() {
+  const formatters = useFormatters();
+
   const docHtml = `<!DOCTYPE html>
   <body>
     <h1>Heading1</h1>
@@ -103,11 +109,13 @@ export default function TableOfContents() {
   </body>`;
 
   const doc = new DOMParser().parseFromString(docHtml, "text/html");
-  const toc = format(tableOfContents(doc).replace(/></g, ">\n<"), "  ");
+  const headings = formatters.formatObjAsJson(getRootHeading(doc));
+  const toc = formatters.formatHtml(tableOfContents(doc));
 
   return (
     <>
       <Code code={docHtml} lang="html" />
+      <Code code={headings} lang="json" />
       <Code code={toc} lang="html" />
       <span dangerouslySetInnerHTML={{ __html: toc }}></span>
     </>

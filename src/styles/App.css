@@ -21,14 +21,21 @@ body,
   padding: 0;
 }
 
+#root {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  min-height: 0;
+}
+
 main {
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: var(--spacer);
   gap: var(--spacer);
   background-color: var(--c-base-900);
   color: var(--c-base-300);
+  overflow-y: auto;
 }
 
 nav {
@@ -40,12 +47,14 @@ nav {
   background-color: var(--c-base-800);
 }
 
-nav a, nav a:visited {
+nav a,
+nav a:visited {
   color: var(--c-base-300);
   text-decoration: none;
 }
 
-nav a:hover, nav a.active {
+nav a:hover,
+nav a.active {
   color: var(--c-primary-900);
 }
 
