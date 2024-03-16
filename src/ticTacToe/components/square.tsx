@@ -26,9 +26,19 @@ export default function Square({ row, col }: { row: number; col: number }) {
     classes.push("oh");
   }
 
-  function onClick() {
-    dispatch(setSquare({ col, row, value: SquareState.EX }));
+  function onKeyDown(event: React.KeyboardEvent<HTMLSpanElement>) {
+    if (event.code === "Space") {
+      dispatch(setSquare({ col, row }));
+    }
   }
 
-  return <span className={classes.join(" ")} onClick={onClick}></span>;
+  return (
+    <span
+      className={classes.join(" ")}
+      onClick={() => dispatch(setSquare({ col, row }))}
+      onKeyDown={onKeyDown}
+      tabIndex={0}
+      aria-label={`row ${row + 1}, column ${row + 1}, ${squareState === SquareState.BLANK ? "blank, press space to select" : squareState === SquareState.EX ? "occupied by X" : "occupied by O"}`}
+    ></span>
+  );
 }

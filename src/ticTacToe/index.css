@@ -4,21 +4,24 @@ main {
 }
 
 .board {
-  --square-size: 80px;
-
+  max-width: 80vh;
+  width: 100%;
   display: grid;
   justify-content: start;
 }
 
 .board > span {
-  height: var(--square-size);
-  width: var(--square-size);
+  aspect-ratio: 1 / 1;
   border: 1px solid var(--c-base-400);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-size: calc(var(--square-size) * 0.8);
+  font-size: 6vw;
+}
+
+.board > span:focus-within {
+  border-color: var(--c-primary-900);
 }
 
 .board > span.row-start {
@@ -41,6 +44,6 @@ main {
   content: "X";
 }
 
-.board > span.ex::before {
+.board > span.oh::before {
   content: "O";
 }

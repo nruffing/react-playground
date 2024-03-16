@@ -15,7 +15,7 @@ export default function Board() {
   return (
     <div
       className="board"
-      style={{ gridTemplateColumns: `repeat(${boardSize}, auto)` }}
+      style={{ gridTemplateColumns: `repeat(${boardSize}, 1fr)` }}
     >
       {squares}
     </div>

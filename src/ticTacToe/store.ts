@@ -20,21 +20,65 @@ interface TicTacToeState {
   N: number;
   M: number;
   state: SquareState[][];
-  message: string;
+  player: SquareState;
+  winner: SquareState | undefined;
 }
 
 interface SetSquarePayload {
   row: number;
   col: number;
-  value: SquareState;
 }
 
 const initialState: TicTacToeState = {
   N,
   M,
   state: getDefaultBoardState(),
-  message: "Welcome!",
+  player: SquareState.EX,
+  winner: undefined,
 };
+
+function checkVector(vector: SquareState[], player: SquareState): boolean {
+  let count = 0;
+  for (var item of vector) {
+    if (item === player) {
+      count++;
+      if (count === M) {
+        return true;
+      }
+    } else {
+      count = 0;
+    }
+  }
+  return false;
+}
+
+function checkWin(state: SquareState[][], row: number, col: number): boolean {
+  const player = state[row][col];
+
+  if (checkVector(state[row], player)) {
+    return true;
+  }
+
+  const vertical = [];
+  for (const row of state) {
+    vertical.push(row[col]);
+  }
+  if (checkVector(vertical, player)) {
+    return true;
+  }
+
+  const diagonal = [];
+  let rowIndex = row >= col ? row - col : 0;
+  let colIndex = col >= row ? col - row : 0;
+  for (; rowIndex < N && colIndex < N; rowIndex++, colIndex++) {
+    diagonal.push(state[rowIndex][colIndex]);
+  }
+  if (diagonal.length >= M && checkVector(diagonal, player)) {
+    return true;
+  }
+
+  return false;
+}
 
 const slice = createSlice({
   name: "ticTacToe",
@@ -44,11 +88,26 @@ const slice = createSlice({
       state: TicTacToeState,
       action: PayloadAction<SetSquarePayload>,
     ) => {
-      state.state[action.payload.row][action.payload.col] =
-        action.payload.value;
+      if (
+        !!state.winner ||
+        state.state[action.payload.row][action.payload.col] !==
+          SquareState.BLANK
+      ) {
+        return;
+      }
+
+      state.state[action.payload.row][action.payload.col] = state.player;
+      if (checkWin(state.state, action.payload.row, action.payload.col)) {
+        state.winner = state.player;
+      } else {
+        state.player =
+          state.player === SquareState.EX ? SquareState.OH : SquareState.EX;
+      }
     },
     reset: (state: TicTacToeState) => {
       state.state = getDefaultBoardState();
+      state.player = SquareState.EX;
+      state.winner = undefined;
     },
   },
 });
