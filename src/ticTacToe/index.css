@@ -1,0 +1,46 @@
+main {
+  align-items: center;
+  gap: calc(var(--spacer) * 2);
+}
+
+.board {
+  --square-size: 80px;
+
+  display: grid;
+  justify-content: start;
+}
+
+.board > span {
+  height: var(--square-size);
+  width: var(--square-size);
+  border: 1px solid var(--c-base-400);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--square-size) * 0.8);
+}
+
+.board > span.row-start {
+  border-top: none;
+}
+
+.board > span.row-end {
+  border-bottom: none;
+}
+
+.board > span.col-start {
+  border-left: none;
+}
+
+.board > span.col-end {
+  border-right: none;
+}
+
+.board > span.ex::before {
+  content: "X";
+}
+
+.board > span.ex::before {
+  content: "O";
+}
