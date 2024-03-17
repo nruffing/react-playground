@@ -1,0 +1,28 @@
+.wordle {
+  --c-default: #d3d6da;
+  --c-correct: #6aaa64;
+  --c-present: #c9b458;
+  --c-absent: #787c7e;
+
+  --c-text: var(--c-absent);
+  --border: 1px solid var(--c-text);
+  color: var(--c-text);
+}
+
+.wordle .separator {
+  width: 100%;
+  border-top: var(--border);
+}
+
+.wordle-board {
+  display: grid;
+  width: 100%;
+  max-width: 400px;
+  gap: calc(var(--spacer) / 2);
+}
+
+.wordle-board .guess-square {
+  aspect-ratio: 1 / 1;
+  border: var(--border);
+  border-width: 2px;
+}

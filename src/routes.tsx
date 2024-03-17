@@ -2,6 +2,7 @@ import Home from "./home";
 import TableOfContents from "./tableOfContents";
 import TicTacToe from "./ticTacToe";
 import TransferListView from "./transferList";
+import Wordle from "./wordle";
 
 export default [
   {
@@ -23,5 +24,10 @@ export default [
     name: "Transfer List",
     path: "transfer-list",
     element: <TransferListView />
+  },
+  {
+    name: "Wordle",
+    path: "wordle",
+    element: <Wordle />
   }
 ];

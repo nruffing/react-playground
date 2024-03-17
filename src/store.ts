@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ticTacToeReducer from "./ticTacToe/store";
+import wordleReducer from "./wordle/store";
 
 const store = configureStore({
   reducer: {
     ticTacToe: ticTacToeReducer,
+    wordle: wordleReducer,
   },
 });
 
