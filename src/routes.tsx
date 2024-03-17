@@ -1,6 +1,7 @@
 import Home from "./home";
 import TableOfContents from "./tableOfContents";
 import TicTacToe from "./ticTacToe";
+import TransferListView from "./transferList";
 
 export default [
   {
@@ -18,4 +19,9 @@ export default [
     path: "/tic-tac-toe",
     element: <TicTacToe />,
   },
+  {
+    name: "Transfer List",
+    path: "transfer-list",
+    element: <TransferListView />
+  }
 ];

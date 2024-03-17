@@ -114,6 +114,7 @@ export default function TableOfContents() {
 
   return (
     <>
+      <a href="https://www.greatfrontend.com/questions/javascript/table-of-contents" target="_blank">Great Frontend</a>
       <Code code={docHtml} lang="html" />
       <Code code={headings} lang="json" />
       <Code code={toc} lang="html" />

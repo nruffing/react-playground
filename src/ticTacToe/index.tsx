@@ -13,8 +13,9 @@ export default function TicTacToe() {
   const winner = useAppSelector((s) => s.ticTacToe.winner);
   const dispatch = useAppDispatch();
 
-  return (
-    <>
+  return <>
+    <a href="https://www.greatfrontend.com/questions/user-interface/tic-tac-toe-ii" target="_blank">Great Frontend</a>
+    <div className="centered">
       {winner ? (
         <span>Player {winner === SquareState.EX ? "X" : "O"} wins!</span>
       ) : (
@@ -22,6 +23,6 @@ export default function TicTacToe() {
       )}
       <Board />
       <button onClick={() => dispatch(reset())}>Reset</button>
-    </>
-  );
+    </div>
+  </>
 }

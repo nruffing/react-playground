@@ -4,6 +4,7 @@
 
   --c-base-900: #141414;
   --c-base-800: #282828;
+  --c-base-600: #555555;
   --c-base-400: #909090;
   --c-base-300: #b0b0b0;
   --c-base-200: #cccccc;
@@ -38,6 +39,14 @@ main {
   overflow-y: auto;
 }
 
+main > .centered {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--spacer) * 2);
+}
+
 nav {
   display: flex;
   flex-direction: row;
@@ -47,12 +56,19 @@ nav {
   background-color: var(--c-base-800);
 }
 
+a,
+a:visited {
+  color: var(--c-base-300);
+  text-decoration: underline;
+}
+
 nav a,
 nav a:visited {
   color: var(--c-base-300);
   text-decoration: none;
 }
 
+a:hover,
 nav a:hover,
 nav a.active {
   color: var(--c-primary-900);
