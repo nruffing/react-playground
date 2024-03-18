@@ -9,7 +9,7 @@ export default function GuessSquare({ state }: GuessSquareProps) {
 
   return (
     <span className={classes.join(' ')}>
-      { state.charCode ?  String.fromCharCode(state.charCode) : '' }
+      { state.key ?? '' }
     </span>
   )
 }

@@ -40,7 +40,7 @@ export enum GuessState {
 }
 
 export interface BoardSquare {
-  charCode?: number,
+  key?: string,
   guess: GuessState,
 }
 
@@ -53,9 +53,13 @@ function getDefaultBoardState() {
 export interface KeyboardKey {
   key: string,
   label?: string,
-  guess?: GuessState,
 }
 
+export interface KeyboardKeyState {
+  key: string,
+  guess: GuessState,
+}
+ 
 const getDefaultKeyboardState = () => [
   [
     { key: 'Q' },
@@ -91,18 +95,26 @@ const getDefaultKeyboardState = () => [
     { key: 'M' },
     { key: 'Backspace', label: 'DEL' },
   ]
-]
+] as KeyboardKey[][]
 
 export interface WordleState {
   target: string,
   guesses: BoardSquare[],
+  guessIndex: number,
   keyboard: KeyboardKey[][],
+  keyState: KeyboardKeyState[],
+  currentWord: string,
+  complete: boolean,
 }
 
 const initialState = {
   target: getRandomTarget(),
   guesses: getDefaultBoardState(),
+  guessIndex: 0,
   keyboard: getDefaultKeyboardState(),
+  keyState: [] as KeyboardKeyState[],
+  currentWord: '',
+  complete: false,
 }
 
 const slice = createSlice({
@@ -113,9 +125,51 @@ const slice = createSlice({
       state.target = getRandomTarget()
       state.guesses = getDefaultBoardState()
       state.keyboard = getDefaultKeyboardState()
-    }
+      state.keyState = [] as KeyboardKeyState[],
+      state.currentWord = ''
+      state.complete = false
+    },
+    onKey(state: WordleState, action: PayloadAction<string>) {
+      if (state.complete) {
+        return
+      }
+
+      const guess = state.guesses[state.guessIndex]
+      guess.key = action.payload
+      let keyState = state.keyState.find(s => s.key === action.payload)
+      if (!keyState) {
+        keyState = { key: action.payload, guess: GuessState.CORRECT }
+        state.keyState.push(keyState)
+      }
+
+      const colIndex = state.guessIndex % WordSize
+      if (state.target.substring(colIndex, colIndex + 1) === guess.key) {
+        keyState.guess = GuessState.CORRECT
+        guess.guess = GuessState.CORRECT
+      } else if (state.target.includes(guess.key)) {
+        keyState.guess = GuessState.PRESENT
+        guess.guess = GuessState.PRESENT
+      } else {
+        keyState.guess = GuessState.ABSENT
+        guess.guess = GuessState.ABSENT
+      }
+      
+      if (colIndex === 0) {
+        state.currentWord = guess.key
+      } else {
+        state.currentWord +=  guess.key
+      }
+
+      if (state.currentWord === state.target ||
+        state.guessIndex === state.guesses.length - 1) {
+        state.complete = true
+        return
+      }
+
+      state.guessIndex++
+    },
   }
 })
 
-export const { reset } = slice.actions;
+export const { reset, onKey } = slice.actions;
 export default slice.reducer;
