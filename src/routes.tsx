@@ -1,3 +1,4 @@
+import DeepClone from "./deepClone";
 import Home from "./home";
 import TableOfContents from "./tableOfContents";
 import TicTacToe from "./ticTacToe";
@@ -29,5 +30,10 @@ export default [
     name: "Wordle",
     path: "wordle",
     element: <Wordle />
-  }
+  },
+  {
+    name: "DeepClone",
+    path: "deep-clone",
+    element: <DeepClone />,
+  },
 ];
