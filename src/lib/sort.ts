@@ -14,7 +14,7 @@ export function selectionSort(arr: Array<number>): Array<number> {
   }
 
   let start = 0
-  
+
   while (start < arr.length - 1) {
     let min = arr[start]
     let minIndex = start
@@ -28,15 +28,15 @@ export function selectionSort(arr: Array<number>): Array<number> {
     swap(minIndex, start, arr)
     start++
   }
-  
+
   return arr
 }
 
-export default function insertionSort(arr: Array<number>): Array<number> {  
+export function insertionSort(arr: Array<number>): Array<number> {
   if (arr.length < 2) {
     return arr
   }
-  
+
   let result = [arr[0]]
   for (var i = 1; i < arr.length; i++) {
     let value = arr[i]
@@ -50,6 +50,43 @@ export default function insertionSort(arr: Array<number>): Array<number> {
     } else {
       result.push(value)
     }
+  }
+
+  return result
+}
+
+export function mergeSort(arr: Array<number>): Array<number> {
+  if (arr.length <= 1) {
+    return arr
+  }
+
+  const mid = Math.ceil(arr.length / 2)
+  const left = mergeSort(arr.slice(0, mid))
+  const right = mergeSort(arr.slice(mid))
+
+  const result = []
+  let leftIndex = 0
+  let rightIndex = 0
+  let leftValue = left[leftIndex]
+  let rightValue = right[rightIndex]
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (leftValue < rightValue) {
+      result.push(leftValue)
+      leftIndex++
+      leftValue = left[leftIndex]
+    } else {
+      result.push(rightValue)
+      rightIndex++
+      rightValue = right[rightIndex]
+    }
+  }
+
+  while (leftIndex < left.length) {
+    result.push(left[leftIndex++])
+  }
+
+  while (rightIndex < right.length) {
+    result.push(right[rightIndex++])
   }
 
   return result
