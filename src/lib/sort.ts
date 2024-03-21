@@ -91,3 +91,63 @@ export function mergeSort(arr: Array<number>): Array<number> {
 
   return result
 }
+
+function isSorted(arr: Array<number>): boolean {
+  if (arr.length <= 1) {
+    return true
+  }
+  let previous = arr[0]
+  for (var i = 1; i < arr.length; i++) {
+    const current = arr[i]
+    if (previous > current) {
+      return false
+    }
+    previous = current
+  }
+  return true
+}
+
+export function quickSort(arr: Array<number>): Array<number> {
+  if (arr.length <= 1) {
+    return arr
+  }
+
+  if (arr.length === 2) {
+    const zero = arr[0]
+    const one = arr[1]
+    return zero < one ? [zero, one] : [one, zero]
+  }
+
+  if (isSorted(arr)) {
+    return arr
+  }
+
+  let pivotIndex = Math.floor(arr.length / 2)
+
+  const partition = (): { lt: number[], gt: number[] } => {
+    const lt = [] as number[]
+    const gt = [] as number[]
+
+    const pivot = arr[pivotIndex]
+    for (var value of arr) {
+      if (value <= pivot) {
+        lt.push(value)
+      } else {
+        gt.push(value)
+      }
+    }
+
+    if (lt.length === 0 || gt.length === 0) {
+      pivotIndex++
+      if (pivotIndex === arr.length) {
+        pivotIndex = 0
+      }
+      return partition()
+    }
+
+    return { lt, gt }
+  }
+
+  const { lt, gt } = partition()
+  return [...quickSort(lt), ...quickSort(gt)]
+}
