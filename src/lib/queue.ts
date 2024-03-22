@@ -64,3 +64,58 @@ export class Queue<T> {
     }
   }
 }
+
+// https://greatfrontend.com/questions/javascript/queue?list=data-structures-algorithms
+export default class MyQueue<T> {
+  arr: T[] = []
+
+  /**
+   * Adds an item to the back of the queue.
+   * @param {T} item The item to be pushed onto the queue.
+   * @return {number} The new length of the queue.
+   */
+  enqueue(item: T): number {
+    this.arr.push(item)
+    return this.arr.length
+  }
+
+  /**
+   * Removes an item from the front of the queue.
+   * @return {T | undefined} The item at the front of the queue if it is not empty, `undefined` otherwise.
+   */
+  dequeue(): T | undefined {
+    return this.arr.shift()
+  }
+
+  /**
+   * Determines if the queue is empty.
+   * @return {boolean} `true` if the queue has no items, `false` otherwise.
+   */
+  isEmpty(): boolean {
+    return this.arr.length === 0
+  }
+
+  /**
+   * Returns the item at the front of the queue without removing it from the queue.
+   * @return {T | undefined} The item at the front of the queue if it is not empty, `undefined` otherwise.
+   */
+  front(): T | undefined {
+    return this.isEmpty() ? undefined : this.arr[0]
+  }
+
+  /**
+   * Returns the item at the back of the queue without removing it from the queue.
+   * @return {T | undefined} The item at the back of the queue if it is not empty, `undefined` otherwise.
+   */
+  back(): T | undefined {
+    return this.isEmpty() ? undefined : this.arr[this.arr.length - 1]
+  }
+
+  /**
+   * Returns the number of items in the queue.
+   * @return {number} The number of items in the queue.
+   */
+  length(): number {
+    return this.arr.length
+  }
+}
