@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { heapSort, quickSort } from './sort'
+import { heapSort, quickSort, topologicalSort } from './sort'
 
 describe('quickSort', () => {
   test('more than two elements', () => {
@@ -12,3 +12,18 @@ describe('heapSort', () => {
     expect(heapSort([2, 1])).toEqual([1, 2])
   })
 })
+
+describe('topologicalSort', () => {
+  test('empty graph', () => {
+    expect(topologicalSort({})).toEqual([]);
+  });
+
+  test('graphs with one node', () => {
+    expect(topologicalSort({ A: [] })).toEqual(['A']);
+  });
+
+  test.only('graphs with two nodes', () => {
+    expect(topologicalSort({ A: ['B'], B: [] })).toEqual(['A', 'B']);
+    expect(topologicalSort({ A: [], B: ['A'] })).toEqual(['B', 'A']);
+  });
+});

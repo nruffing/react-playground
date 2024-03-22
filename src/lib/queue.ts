@@ -66,7 +66,7 @@ export class Queue<T> {
 }
 
 // https://greatfrontend.com/questions/javascript/queue?list=data-structures-algorithms
-export default class MyQueue<T> {
+export class MyQueue<T> {
   arr: T[] = []
 
   /**

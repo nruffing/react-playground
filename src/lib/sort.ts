@@ -1,4 +1,5 @@
 import { MaxHeap } from "./heap"
+import { Queue } from "./queue"
 
 export function swap<T>(x: number, y: number, arr: Array<T>) {
   const tmp = arr[x]
@@ -164,5 +165,55 @@ export function heapSort(arr: Array<number>): Array<number> {
     new MaxHeap(unsorted)
     result.unshift(unsorted.shift()!)
   }
+  return result
+}
+
+// https://www.greatfrontend.com/questions/javascript/topological-sort?list=data-structures-algorithms
+export function topologicalSort(
+  graph: Record<string, Array<string>>,
+): Array<string> {
+  const result = [] as string[]
+  const degrees = {} as Record<string, number>
+  const queue = new Queue<string>()
+
+  const incrementDegree = (key: string) => {
+    if (degrees[key] === undefined) {
+      degrees[key] = 0
+    }
+    degrees[key]++
+  }
+
+  const decrementDegree = (key: string): number => {
+    if (degrees[key] === undefined) {
+      return 0
+    }
+    return --degrees[key]
+  }
+
+  for (const node of Object.entries(graph)) {
+    for (const edge of node[1]) {
+      incrementDegree(edge)
+    }
+  }
+
+  // For each node in the graph, if it has no incoming edges, add it to the queue.
+  for (const node of Object.entries(graph)) {
+    if (!degrees[node[0]]) {
+      queue.enqueue(node[0])
+    }
+  }
+
+  while (!queue.isEmpty()) {
+    const current = queue.dequeue()!
+    result.push(current)
+
+    for (const edge of graph[current] ?? []) {
+      const degree = decrementDegree(edge)
+      if (!degree) {
+        queue.enqueue(edge)
+      }
+    }
+  }
+
   return result
 }
