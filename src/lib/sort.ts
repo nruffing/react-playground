@@ -1,4 +1,6 @@
-function swap<T>(x: number, y: number, arr: Array<T>) {
+import { MaxHeap } from "./heap"
+
+export function swap<T>(x: number, y: number, arr: Array<T>) {
   const tmp = arr[x]
   arr[x] = arr[y]
   arr[y] = tmp
@@ -150,4 +152,17 @@ export function quickSort(arr: Array<number>): Array<number> {
 
   const { lt, gt } = partition()
   return [...quickSort(lt), ...quickSort(gt)]
+}
+
+export function heapSort(arr: Array<number>): Array<number> {
+  if (arr.length <= 1) {
+    return arr
+  }
+  const result = [] as number[]
+  const unsorted = [...arr]
+  for (var i = 0; i <= arr.length - 1; i++) {
+    new MaxHeap(unsorted)
+    result.unshift(unsorted.shift()!)
+  }
+  return result
 }
