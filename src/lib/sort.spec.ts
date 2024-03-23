@@ -22,7 +22,7 @@ describe('topologicalSort', () => {
     expect(topologicalSort({ A: [] })).toEqual(['A']);
   });
 
-  test.only('graphs with two nodes', () => {
+  test('graphs with two nodes', () => {
     expect(topologicalSort({ A: ['B'], B: [] })).toEqual(['A', 'B']);
     expect(topologicalSort({ A: [], B: ['A'] })).toEqual(['B', 'A']);
   });
