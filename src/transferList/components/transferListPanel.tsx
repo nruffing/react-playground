@@ -39,7 +39,7 @@ export default function TransferListPanel({ id, items, onItemToggled, onSelectAl
         aria-label="Add new item"
         onKeyDown={onAddKeydown}
       />
-      <span className="select-all-row">
+      <span className="bordered select-all-row">
         <input id={`${id}-select-all`} ref={selectAllRef} type="checkbox" checked={allChecked} onChange={onSelectAllToggled}></input>
         <label htmlFor={`${id}-select-all`}>{selected.length}/{items.length} Selected</label>
       </span>

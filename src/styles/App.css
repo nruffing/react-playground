@@ -11,6 +11,7 @@
   --c-base-000: #ffffff;
 
   --c-primary-900: #ff5500;
+  --border: 1px solid var(--c-base-600);
 }
 
 html,
@@ -90,4 +91,10 @@ main h1:first-child {
 pre {
   margin: 0;
   padding: var(--spacer);
+}
+
+.bordered {
+  border-top: var(--border);
+  border-bottom: var(--border);
+  padding: calc(var(--spacer) * 0.5) 0;
 }
